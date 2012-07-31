@@ -33,7 +33,6 @@ def save_data(f, *args, **kargs):
 class DpClient(object):
     def __init__(self, data_file):
         self.data_file = data_file
-        self._read_data()
 
     def _read_data(self):
         '''Read stored data.'''
@@ -69,3 +68,4 @@ class DpClient(object):
         result += '\n'.join('%s:%s' % (t_id, t_name)
                             for t_id, t_name in self.data.tasks.items())
         return result
+
