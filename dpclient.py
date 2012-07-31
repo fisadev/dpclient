@@ -13,10 +13,17 @@ INITIAL_DATA = {
 }
 
 
-def data_operation(f, *args, **kargs):
-    '''Data operation, read data before and saves data after.'''
+def read_data(f, *args, **kargs):
+    '''Read data before action.'''
     def new_f(self, *args, **kargs):
         self._read_data()
+        result = f(self, *args, **kargs)
+        return result
+    return new_f
+
+def save_data(f, *args, **kargs):
+    '''Save data after action.'''
+    def new_f(self, *args, **kargs):
         result = f(self, *args, **kargs)
         self._save_data()
         return result
@@ -41,16 +48,24 @@ class DpClient(object):
         with open(self.data_file, 'w') as f:
             f.write(json.dumps(self.data))
 
-    @data_operation
+    @read_data
+    @save_data
     def config(self, server, user, password):
         self.data.server = server
         self.data.user = user
         self.data.password = password
         return 'Config saved'
 
-    @data_operation
+    @read_data
+    @save_data
     def add_task(self, task_id, task_name):
         if task_id not in self.data.tasks and \
            task_name not in self.data.tasks.values():
             self.data.tasks[task_id] = task_name
 
+    @read_data
+    def tasks(self):
+        result = 'Tasks:\n'
+        result += '\n'.join('%s:%s' % (t_id, t_name)
+                            for t_id, t_name in self.data.tasks.items())
+        return result
