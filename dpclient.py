@@ -15,8 +15,12 @@ INITIAL_DATA = {
 def read_data():
     '''Read stored data.'''
     if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'w') as f:
-            f.write(json.dumps(INITIAL_DATA))
+        save_data(INITIAL_DATA)
     json_data = json.loads(open(DATA_FILE).read())
     return bunchify(json_data)
 
+
+def save_data(data):
+    '''Save data.'''
+    with open(DATA_FILE, 'w') as f:
+        f.write(json.dumps(data))
