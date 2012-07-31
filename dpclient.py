@@ -13,6 +13,16 @@ INITIAL_DATA = {
 }
 
 
+def data_operation(f, *args, **kargs):
+    '''Data operation, read data before and saves data after.'''
+    def new_f(self, *args, **kargs):
+        self._read_data()
+        result = f(self, *args, **kargs)
+        self._save_data()
+        return result
+    return new_f
+
+
 class DpClient(object):
     def __init__(self, data_file):
         self.data_file = data_file
@@ -30,3 +40,11 @@ class DpClient(object):
         '''Save data.'''
         with open(self.data_file, 'w') as f:
             f.write(json.dumps(self.data))
+
+    @data_operation
+    def config(self, server, user, password):
+        self.data.server = server
+        self.data.user = user
+        self.data.password = password
+        return 'Config saved'
+
