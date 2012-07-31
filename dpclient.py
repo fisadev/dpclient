@@ -9,7 +9,7 @@ INITIAL_DATA = {
         'user': '',
         'password': '',
         'server': '',
-        'tasks': []
+        'tasks': {}
 }
 
 
@@ -47,4 +47,10 @@ class DpClient(object):
         self.data.user = user
         self.data.password = password
         return 'Config saved'
+
+    @data_operation
+    def add_task(self, task_id, task_name):
+        if task_id not in self.data.tasks and \
+           task_name not in self.data.tasks.values():
+            self.data.tasks[task_id] = task_name
 
