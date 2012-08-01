@@ -69,10 +69,11 @@ class DpClient(object):
         if task_id not in self.data.tasks and \
            task_name not in self.data.tasks.values():
             self.data.tasks[task_id] = task_name
+        return 'task saved'
 
     @read_data
     def tasks(self):
-        result = 'Tasks:\n'
+        result = 'tasks:\n'
         result += '\n'.join('%s:%s' % (t_id, t_name)
                             for t_id, t_name in self.data.tasks.items())
         return result
