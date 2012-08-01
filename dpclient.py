@@ -22,6 +22,7 @@ def read_data(f, *args, **kargs):
         self._read_data()
         result = f(self, *args, **kargs)
         return result
+    new_f.__doc__ = f.__doc__
     return new_f
 
 def save_data(f, *args, **kargs):
@@ -30,6 +31,7 @@ def save_data(f, *args, **kargs):
         result = f(self, *args, **kargs)
         self._save_data()
         return result
+    new_f.__doc__ = f.__doc__
     return new_f
 
 
