@@ -12,8 +12,8 @@ INITIAL_DATA = {
         'server': '',
         'tasks': {}
 }
-BASIC_HELP = '''dp <action> <params>
-actions: help, config, task, log'''
+BASIC_HELP = 'usage: dp <action> <params>'
+ACTIONS_HELP = 'actions: help, config, task, log'
 
 
 def read_data(f, *args, **kargs):
@@ -84,16 +84,31 @@ class DpClient(object):
     def log(self, date, hours, task_id, description):
         raise NotImplementedError()
 
+    def help(self, action=None):
+        if action and action != 'help':
+            if self._is_action(action):
+                return 'usage: dp %s' % getattr(self, action).__doc__
+            else:
+                return 'unknown action "%s"' % action
+                print ACTIONS_HELP
+        else:
+            return 'usage: dp help <action>\n' + ACTIONS_HELP
+
+    def _is_action(self, action):
+        return action in dir(self) and callable(getattr(self, action))
+
 if __name__ == '__main__':
     dpc = DpClient(DEFAULT_DATA_FILE)
 
     if len(sys.argv) == 1:
         print BASIC_HELP
+        print ACTIONS_HELP
     else:
         action = sys.argv[1]
-        if action not in dir(dpc) or not callable(getattr(dpc, action)):
-            print 'unknown action "%s"' % action
-            print BASIC_HELP
-        else:
+        if dpc._is_action(action):
             action_method = getattr(dpc, action)
             print action_method(*sys.argv[2:])
+        else:
+            print 'unknown action "%s"' % action
+            print BASIC_HELP
+            print ACTIONS_HELP
