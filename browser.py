@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# THIS CODE IS FROM https://github.com/nqnwebs/h2dp
+# CREDIT TO THE ORIGINAL AUTHORS ON THAT PROJECT
 
 import mechanize
 import cookielib
@@ -45,7 +47,7 @@ class DotProjectBot(object):
         self.base_url = base_url
         if not self.base_url.endswith('/'):
             self.base_url += '/'
-        
+
 
     def login(self, username, password):
         self.br.open(self.base_url)
@@ -78,8 +80,8 @@ class DotProjectBot(object):
         else:
             msg = u"«%s (%s hs)» was logged succesfully" % (description, str(hours))
             logging.info(msg)
-        
 
-        
+
+
 
 
