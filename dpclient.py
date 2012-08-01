@@ -124,7 +124,7 @@ class DpClient(object):
             return 'wrong formated date "%s", see: dp help log' % date
         if task not in self.data.tasks:
             return 'unknown task "%s", see: dp task' % task
-        if any(self.data[s] is None for s in SETTINGS):
+        if any(not bool(self.data[s]) for s in SETTINGS):
             return 'not all settings configured, see: dp config'
         bot = DotProjectBot(self.data.server)
         bot.login(self.data.user, self.data.password)
