@@ -83,22 +83,22 @@ class DpClient(object):
 
     @read_data
     @save_data
-    def task(self, task_id=None, name=None):
+    def task(self, name=None, dot_project_id=None):
         '''
-        task             : show all known tasks
-        task <id>        : show single task
-        task <id> <name> : save task to known tasks
+        task                         : show all known tasks
+        task <name>                  : show single task
+        task <name> <dot_project_id> : save task to known tasks
         '''
-        if task_id:
-            if name:
-                self.data.tasks[task_id] = name
+        if name:
+            if dot_project_id:
+                self.data.tasks[name] = dot_project_id
                 return 'task saved'
             else:
-                return '%s: %s' % (task_id, self.data.tasks[task_id])
+                return '%s: %s' % (name, self.data.tasks[name])
         else:
             result = ['tasks:', ]
-            result.extend('%s: %s' % (t_id, t_name)
-                          for t_id, t_name in self.data.tasks.items())
+            result.extend('%s: %s' % (name, dp_id)
+                          for name, dp_id in self.data.tasks.items())
             return '\n'.join(result)
 
     @read_data
