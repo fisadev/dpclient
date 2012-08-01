@@ -21,7 +21,7 @@ def strip_lines(text):
 
 
 def read_data(f, *args, **kargs):
-    '''Read data before action.'''
+    '''Read data before action decorator.'''
     def new_f(self, *args, **kargs):
         self._read_data()
         result = f(self, *args, **kargs)
@@ -29,8 +29,9 @@ def read_data(f, *args, **kargs):
     new_f.__doc__ = f.__doc__
     return new_f
 
+
 def save_data(f, *args, **kargs):
-    '''Save data after action.'''
+    '''Save data after action decorator.'''
     def new_f(self, *args, **kargs):
         result = f(self, *args, **kargs)
         self._save_data()
