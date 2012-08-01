@@ -116,7 +116,7 @@ class DpClient(object):
 
         date is in dd/MM/yyyy format
         hours is in decimal unit (example: 1:15 hours would be 1.25)
-        task is a known task name (see: dp help task)
+        task is a known task name (see: dp task)
         '''
         try:
             date = datetime.strptime(date, DATE_FORMAT)
