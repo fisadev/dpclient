@@ -108,6 +108,13 @@ class DpClient(object):
 
     @read_data
     def log(self, date, hours, task, description):
+        '''
+        log <date> <hours> <task> <description>
+
+        date is in dd/MM/yyyy format
+        hours is in HH:mm format (24 hours)
+        task is a known task name (see: dp help task)
+        '''
         raise NotImplementedError()
 
     def help(self, action=None):
