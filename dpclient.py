@@ -49,14 +49,13 @@ class DpClient(object):
 
     @read_data
     @save_data
-    def set_config(self, setting, value):
-        self.data[setting] = value
-        return '%s saved in config' % setting
-
-    @read_data
-    def config(self, setting=None):
+    def config(self, setting=None, value=None):
         if setting:
-            return '%s: %s' % (setting, self.data[setting])
+            if value:
+                self.data[setting] = value
+                return '%s saved in config' % setting
+            else:
+                return '%s: %s' % (setting, self.data[setting])
         else:
             settings = []
             for s in ['server', 'user', 'password']:
