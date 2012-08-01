@@ -67,7 +67,7 @@ class DpClient(object):
         config <setting>         : show single setting
         config <setting> <value> : save value into a setting
 
-        values: server, user, password
+        settings: server, user, password
         '''
         if setting:
             if value:
