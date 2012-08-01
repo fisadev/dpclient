@@ -41,6 +41,8 @@ def save_data(f, *args, **kargs):
 
 
 class DpClient(object):
+    '''Dot Project command line client.'''
+
     def __init__(self, data_file):
         self.data_file = data_file
 
@@ -109,6 +111,7 @@ class DpClient(object):
             return 'help <action>\n' + ACTIONS_HELP
 
     def _is_action(self, action):
+        '''Find if an action exists.'''
         return action in dir(self) and callable(getattr(self, action))
 
 
