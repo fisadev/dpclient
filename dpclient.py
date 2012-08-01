@@ -84,6 +84,11 @@ class DpClient(object):
     @read_data
     @save_data
     def task(self, task_id=None, name=None):
+        '''
+        task             : show all known tasks
+        task <id>        : show single task
+        task <id> <name> : save task to known tasks
+        '''
         if task_id:
             if name:
                 self.data.tasks[task_id] = name
