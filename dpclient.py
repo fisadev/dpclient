@@ -16,6 +16,10 @@ BASIC_HELP = 'usage: dp <action> <params>'
 ACTIONS_HELP = 'actions: help, config, task, log'
 
 
+def strip_lines(text):
+    return '\n'.join(l.strip() for l in text.strip().split('\n'))
+
+
 def read_data(f, *args, **kargs):
     '''Read data before action.'''
     def new_f(self, *args, **kargs):
@@ -55,6 +59,13 @@ class DpClient(object):
     @read_data
     @save_data
     def config(self, setting=None, value=None):
+        '''
+        config                   : show all settings
+        config <setting>         : show single setting
+        config <setting> <value> : save value into a setting
+
+        values: server, user, password
+        '''
         if setting:
             if value:
                 self.data[setting] = value
@@ -89,15 +100,16 @@ class DpClient(object):
     def help(self, action=None):
         if action and action != 'help':
             if self._is_action(action):
-                return 'usage: dp %s' % getattr(self, action).__doc__.strip()
+                return strip_lines(getattr(self, action).__doc__)
             else:
                 return 'unknown action "%s"' % action
                 print ACTIONS_HELP
         else:
-            return 'usage: dp help <action>\n' + ACTIONS_HELP
+            return 'help <action>\n' + ACTIONS_HELP
 
     def _is_action(self, action):
         return action in dir(self) and callable(getattr(self, action))
+
 
 if __name__ == '__main__':
     dpc = DpClient(DEFAULT_DATA_FILE)
