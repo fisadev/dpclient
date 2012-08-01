@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 import sys
 import json
@@ -81,3 +82,9 @@ class DpClient(object):
     def log(self, date, hours, task_id, description):
         raise NotImplementedError()
 
+if __name__ == '__main__':
+    dpc = DpClient(DEFAULT_DATA_FILE)
+
+    action = sys.argv[1]
+    action_method = getattr(dpc, action)
+    print action_method(*sys.argv[2:])

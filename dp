@@ -1,9 +1,0 @@
-#!/usr/bin/python
-import sys
-from dpclient import DpClient, DEFAULT_DATA_FILE
-
-dpc = DpClient(DEFAULT_DATA_FILE)
-
-action = sys.argv[1]
-action_method = getattr(dpc, action)
-print action_method(*sys.argv[2:])
