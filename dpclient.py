@@ -114,12 +114,15 @@ class DpClient(object):
         '''
         log <date> <hours> <task> <description>
 
-        date is in dd/MM/yyyy format
+        date is "today" for current date, or any date in dd/MM/yyyy format
         hours is in decimal unit (example: 1:15 hours would be 1.25)
         task is a known task name (see: dp task)
         '''
         try:
-            date = datetime.strptime(date, DATE_FORMAT)
+            if date.strip() == 'today':
+                date = datetime.now()
+            else:
+                date = datetime.strptime(date, DATE_FORMAT)
         except ValueError:
             return 'wrong formated date "%s", see: dp help log' % date
         if task not in self.data.tasks:
