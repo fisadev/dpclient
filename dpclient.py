@@ -133,7 +133,13 @@ if __name__ == '__main__':
         action = sys.argv[1]
         if dpc._is_action(action):
             action_method = getattr(dpc, action)
-            print action_method(*sys.argv[2:])
+            try:
+                print action_method(*sys.argv[2:])
+            except TypeError as err:
+                if 'arguments' in err.message:
+                    print 'wrong parameters, see: dp help %s' % action
+                else:
+                    raise err
         else:
             print 'unknown action "%s"' % action
             print BASIC_HELP
