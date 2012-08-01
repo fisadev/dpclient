@@ -12,6 +12,8 @@ INITIAL_DATA = {
         'server': '',
         'tasks': {}
 }
+BASIC_HELP = '''dp <action> <params>
+actions: help, config, task, log'''
 
 
 def read_data(f, *args, **kargs):
@@ -85,6 +87,13 @@ class DpClient(object):
 if __name__ == '__main__':
     dpc = DpClient(DEFAULT_DATA_FILE)
 
-    action = sys.argv[1]
-    action_method = getattr(dpc, action)
-    print action_method(*sys.argv[2:])
+    if len(sys.argv) == 1:
+        print BASIC_HELP
+    else:
+        action = sys.argv[1]
+        if action not in dir(dpc) or not callable(getattr(dpc, action)):
+            print 'unknown action "%s"' % action
+            print BASIC_HELP
+        else:
+            action_method = getattr(dpc, action)
+            print action_method(*sys.argv[2:])
