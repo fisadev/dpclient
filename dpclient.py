@@ -70,6 +70,8 @@ class DpClient(object):
         settings: server, user, password
         '''
         if setting:
+            if setting not in ['server', 'user', 'password']:
+                return 'unknown setting "%s", see: dp help config' % setting
             if value:
                 self.data[setting] = value
                 return '%s saved in config' % setting
