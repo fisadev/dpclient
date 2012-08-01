@@ -117,7 +117,9 @@ class DpClient(object):
 
     def _is_action(self, action):
         '''Find if an action exists.'''
-        return action in dir(self) and callable(getattr(self, action))
+        return action in dir(self) and \
+               not action.startswith('_') and \
+               callable(getattr(self, action))
 
 
 if __name__ == '__main__':
