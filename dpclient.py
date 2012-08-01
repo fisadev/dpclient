@@ -78,3 +78,7 @@ class DpClient(object):
                             for t_id, t_name in self.data.tasks.items())
         return result
 
+    @read_data
+    def log(self, date, hours, task_id, description):
+        raise NotImplementedError()
+
