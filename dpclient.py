@@ -57,10 +57,10 @@ class DpClient(object):
             else:
                 return '%s: %s' % (setting, self.data[setting])
         else:
-            settings = []
-            for s in ['server', 'user', 'password']:
-                settings.append('%s: %s' % (s, self.data[s]))
-            return '\n'.join(settings)
+            result = []
+            result.extend('%s: %s' % (s, self.data[s])
+                          for s in ['server', 'user', 'password'])
+            return '\n'.join(result)
 
     @read_data
     @save_data
@@ -72,10 +72,10 @@ class DpClient(object):
             else:
                 return '%s: %s' % (task_id, self.data.tasks[task_id])
         else:
-            result = 'tasks:\n'
-            result += '\n'.join('%s: %s' % (t_id, t_name)
-                                for t_id, t_name in self.data.tasks.items())
-            return result
+            result = ['tasks:', ]
+            result.extend('%s: %s' % (t_id, t_name)
+                          for t_id, t_name in self.data.tasks.items())
+            return '\n'.join(result)
 
     @read_data
     def log(self, date, hours, task_id, description):
