@@ -89,7 +89,7 @@ class DpClient(object):
     def help(self, action=None):
         if action and action != 'help':
             if self._is_action(action):
-                return 'usage: dp %s' % getattr(self, action).__doc__
+                return 'usage: dp %s' % getattr(self, action).__doc__.strip()
             else:
                 return 'unknown action "%s"' % action
                 print ACTIONS_HELP
