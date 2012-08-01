@@ -96,7 +96,10 @@ class DpClient(object):
                 self.data.tasks[name] = dot_project_id
                 return 'task saved'
             else:
-                return '%s: %s' % (name, self.data.tasks[name])
+                if name in self.data.tasks:
+                    return '%s: %s' % (name, self.data.tasks[name])
+                else:
+                    return 'unknown task "%s", see: dp task' % name
         else:
             result = ['tasks:', ]
             result.extend('%s: %s' % (name, dp_id)
