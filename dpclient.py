@@ -2,10 +2,12 @@
 import os
 import sys
 import json
+from datetime import datetime
 from bunch import bunchify
 from browser import DotProjectBot
 
 DEFAULT_DATA_FILE = os.path.expanduser('~/.dpclient')
+DATE_FORMAT = '%d/%m/%Y'
 INITIAL_DATA = {
         'user': '',
         'password': '',
@@ -112,10 +114,26 @@ class DpClient(object):
         log <date> <hours> <task> <description>
 
         date is in dd/MM/yyyy format
-        hours is in HH:mm format (24 hours)
+        hours is in decimal unit (example: 1:15 hours would be 1.25)
         task is a known task name (see: dp help task)
         '''
-        raise NotImplementedError()
+        try:
+            date = datetime.strptime(date, DATE_FORMAT)
+        except ValueError:
+            return 'wrong formated date "%s", see: dp help log' % date
+        if task not in self.data.tasks:
+            return 'unknown task "%s", see: dp task' % task
+        if any(s is None for s in (self.data.server,
+                                   self.data.user,
+                                   self.data.password)):
+            return 'not all settings configured, see: dp config'
+        bot = DotProjectBot(self.data.server)
+        bot.login(self.data.user, self.data.password)
+        bot.log_task(self.data.tasks[task],
+                     date,
+                     hours,
+                     description)
+        return 'Log created'
 
     def help(self, action=None):
         '''You really like recursion, don't you?'''
