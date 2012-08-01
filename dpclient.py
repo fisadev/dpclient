@@ -77,7 +77,7 @@ class DpClient(object):
                 return 'unknown setting "%s", see: dp help config' % setting
             if value:
                 self.data[setting] = value.strip()
-                return '%s saved in config' % setting
+                return 'setting "%s" saved' % setting
             else:
                 return '%s: %s' % (setting, self.data[setting])
         else:
@@ -97,7 +97,7 @@ class DpClient(object):
         if name:
             if dot_project_id:
                 self.data.tasks[name.strip()] = dot_project_id.strip()
-                return 'task saved'
+                return 'task "%s" saved' % name
             else:
                 if name in self.data.tasks:
                     return '%s: %s' % (name, self.data.tasks[name])
