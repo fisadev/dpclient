@@ -102,7 +102,7 @@ class DpClient(object):
             return '\n'.join(result)
 
     @read_data
-    def log(self, date, hours, task_id, description):
+    def log(self, date, hours, task, description):
         raise NotImplementedError()
 
     def help(self, action=None):
