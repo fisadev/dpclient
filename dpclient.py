@@ -106,7 +106,8 @@ class DpClient(object):
         raise NotImplementedError()
 
     def help(self, action=None):
-        if action and action != 'help':
+        '''You really like recursion, don't you?'''
+        if action:
             if self._is_action(action):
                 return strip_lines(getattr(self, action).__doc__)
             else:
