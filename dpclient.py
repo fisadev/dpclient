@@ -16,6 +16,7 @@ INITIAL_DATA = {
 }
 BASIC_HELP = 'usage: dp <action> <params>'
 ACTIONS_HELP = 'actions: help, config, task, log'
+SETTINGS = ('server', 'user', 'password')
 
 
 def strip_lines(text):
@@ -72,7 +73,7 @@ class DpClient(object):
         settings: server, user, password
         '''
         if setting:
-            if setting not in ['server', 'user', 'password']:
+            if setting not in SETTINGS:
                 return 'unknown setting "%s", see: dp help config' % setting
             if value:
                 self.data[setting] = value
@@ -82,7 +83,7 @@ class DpClient(object):
         else:
             result = []
             result.extend('%s: %s' % (s, self.data[s])
-                          for s in ['server', 'user', 'password'])
+                          for s in SETTINGS)
             return '\n'.join(result)
 
     @read_data
@@ -123,9 +124,7 @@ class DpClient(object):
             return 'wrong formated date "%s", see: dp help log' % date
         if task not in self.data.tasks:
             return 'unknown task "%s", see: dp task' % task
-        if any(s is None for s in (self.data.server,
-                                   self.data.user,
-                                   self.data.password)):
+        if any(self.data[s] is None for s in SETTINGS):
             return 'not all settings configured, see: dp config'
         bot = DotProjectBot(self.data.server)
         bot.login(self.data.user, self.data.password)
